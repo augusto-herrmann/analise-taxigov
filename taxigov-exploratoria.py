@@ -116,6 +116,7 @@ def fares_map(df: pd.DataFrame) -> folium.Map:
                     f'<dt>Hora partida:<dt><dd>{corrida.data_inicio}</dd>'
                     f'<dt>Destino efetivo:<dt><dd>{corrida.destino_efetivo_endereco}</dd>'
                     f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
+                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
                     f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
                     '</dl>'
                 ),
@@ -130,6 +131,7 @@ def fares_map(df: pd.DataFrame) -> folium.Map:
                     f'<dt>Hora chegada:</dt><dd>{corrida.data_final}</dd>'
                     f'<dt>Origem:<dt><dd>{corrida.origem_endereco}</dd>'
                     f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
+                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
                     f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
                     '</dl>'
                 ),
