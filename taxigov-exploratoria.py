@@ -151,20 +151,23 @@ corridas_servico_florestal.head()
 # %%
 fares_map(corridas_servico_florestal)
 
-# %% [markdown]
-# Itamaraty em Brasília
+# %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[]
+# ### Itamaraty em Brasília
 
 # %%
 fares_map(df[df.nome_orgao=='Ministério das Relaçoes Exteriores'])
 
-# %% [markdown]
-# Ministério da Saúde no Rio de Janeiro
+# %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[]
+# ### Ministério da Saúde no Rio de Janeiro
 
 # %%
 fares_map(df[df.nome_orgao=='2000-30-M.SAUDE'])
 
-# %% [markdown]
-# Anvisa em São Paulo
+# %% [markdown] jp-MarkdownHeadingCollapsed=true tags=[]
+# ### Anvisa em São Paulo
+
+# %% tags=[]
+fares_map(df[df.nome_orgao=='ANVISA'])
 
 # %%
-fares_map(df[df.nome_orgao=='ANVISA'])
+df[df.nome_orgao=='ANVISA']['motivo_corrida'].value_counts()
