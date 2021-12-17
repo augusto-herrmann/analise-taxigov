@@ -19,10 +19,14 @@ import pandas as pd
 import numpy as np
 
 # %%
+import plotly.io as pio
 import plotly.express as px
 
 # %%
 import folium
+
+# %%
+pio.templates.default='plotly_dark'
 
 # %%
 URL = 'http://repositorio.dados.gov.br/seges/taxigov/taxigov-corridas-2021-11.zip'
@@ -71,7 +75,7 @@ motivos_rj = df[df.base_origem == 'TAXIGOV_RJ_10'].motivo_corrida.value_counts()
 motivos_rj
 
 # %%
-px.bar(motivos_rj, template='plotly_dark')
+px.bar(motivos_rj)
 
 # %%
 df[df.base_origem == 'TAXIGOV_SP_10'].motivo_corrida.value_counts()
