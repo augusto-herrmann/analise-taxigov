@@ -352,27 +352,6 @@ def heat_map_with_time(df: pd.DataFrame, point_type: str) -> folium.Map:
     return m
 
 
-# %% tags=[]
-point_type = 'origem'
-df_notna = (
-        df
-        .loc[df[f'{point_type}_latitude'].notna()] # tira os nulos
-        .loc[df[f'{point_type}_longitude'].notna()] # tira os nulos
-        .loc[df['data_inicio'].notna()] # tira os nulos
-)
-points = (
-    df_notna
-    .loc[:,[f'{point_type}_latitude', f'{point_type}_longitude']]
-).values.tolist()
-len(points)
-
-# %%
-dates = df_notna['data_inicio'].apply(lambda d: datetime.fromisoformat(d).date().strftime("%Y-%m-%d")).values.tolist()
-len(dates)
-
-# %%
-data = defaultdict(list)
-
 # %% [markdown] tags=[]
 # ### Mapa de calor geral
 
