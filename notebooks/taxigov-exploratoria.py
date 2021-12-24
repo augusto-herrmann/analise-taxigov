@@ -146,6 +146,31 @@ px.bar(orgaos_sp)
 # ### Funções geradoras de mapas
 
 # %%
+def marker_popup(corrida, tipo):
+    markup = {
+        'partida': (
+            '<dl>'
+            f'<dt>Hora partida:<dt><dd>{corrida.data_inicio}</dd>'
+            f'<dt>Destino efetivo:<dt><dd>{corrida.destino_efetivo_endereco}</dd>'
+            f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
+            f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
+            f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
+            '</dl>'
+        ),
+        'chegada': (
+            '<dl>'
+            f'<dt>Hora chegada:</dt><dd>{corrida.data_final}</dd>'
+            f'<dt>Origem:<dt><dd>{corrida.origem_endereco}</dd>'
+            f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
+            f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
+            f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
+            '</dl>'
+        ),
+    }
+    return markup[tipo]
+
+
+# %%
 def fares_map(df: pd.DataFrame) -> folium.Map:
     m = folium.Map(
         #location=[-15.7935,-47.8823],
@@ -161,30 +186,14 @@ def fares_map(df: pd.DataFrame) -> folium.Map:
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora partida:<dt><dd>{corrida.data_inicio}</dd>'
-                    f'<dt>Destino efetivo:<dt><dd>{corrida.destino_efetivo_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'partida'),
                 icon=folium.Icon(color='darkblue', icon='glyphicon glyphicon-log-out')
             ).add_to(m)
         coordinates = (corrida.destino_efetivo_latitude, corrida.destino_efetivo_longitude)
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora chegada:</dt><dd>{corrida.data_final}</dd>'
-                    f'<dt>Origem:<dt><dd>{corrida.origem_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'chegada'),
                 icon=folium.Icon(color='orange', icon='glyphicon glyphicon-log-in')
             ).add_to(m)
 
@@ -208,30 +217,14 @@ def fares_map_cluster(df: pd.DataFrame) -> folium.Map:
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora partida:<dt><dd>{corrida.data_inicio}</dd>'
-                    f'<dt>Destino efetivo:<dt><dd>{corrida.destino_efetivo_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'partida'),
                 icon=folium.Icon(color='darkblue', icon='glyphicon glyphicon-log-out')
             ).add_to(marker_cluster)
         coordinates = (corrida.destino_efetivo_latitude, corrida.destino_efetivo_longitude)
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora chegada:</dt><dd>{corrida.data_final}</dd>'
-                    f'<dt>Origem:<dt><dd>{corrida.origem_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'chegada'),
                 icon=folium.Icon(color='orange', icon='glyphicon glyphicon-log-in')
             ).add_to(marker_cluster)
 
@@ -259,30 +252,14 @@ def fares_map_category(df: pd.DataFrame, category_column: str) -> folium.Map:
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora partida:<dt><dd>{corrida.data_inicio}</dd>'
-                    f'<dt>Destino efetivo:<dt><dd>{corrida.destino_efetivo_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'partida'),
                 icon=folium.Icon(color='darkblue', icon='glyphicon glyphicon-log-out')
             ).add_to(group[getattr(corrida,category_column)])
         coordinates = (corrida.destino_efetivo_latitude, corrida.destino_efetivo_longitude)
         if not np.isnan(coordinates).any():
             folium.Marker(
                 coordinates,
-                popup=(
-                    '<dl>'
-                    f'<dt>Hora chegada:</dt><dd>{corrida.data_final}</dd>'
-                    f'<dt>Origem:<dt><dd>{corrida.origem_endereco}</dd>'
-                    f'<dt>Motivo:</dt><dd>{corrida.motivo_corrida}</dd>'
-                    f'<dt>Distância:</dt><dd>{corrida.km_total}</dd>'
-                    f'<dt>Valor:</dt><dd>{corrida.valor_corrida}</dd>'
-                    '</dl>'
-                ),
+                popup=marker_popup(corrida, 'chegada'),
                 icon=folium.Icon(color='orange', icon='glyphicon glyphicon-log-in')
             ).add_to(group[getattr(corrida,category_column)])
 
