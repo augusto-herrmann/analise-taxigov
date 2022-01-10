@@ -179,12 +179,15 @@ def marker_popup(corrida, tipo):
 
 # %%
 def fares_map(df: pd.DataFrame) -> folium.Map:
-    m = folium.Map(
-        #location=[-15.7935,-47.8823],
-        location=(
+    if len(df) < 1:
+        map_center = [-15.7935,-47.8823]
+    else:
+        map_center = (
             (df.origem_latitude.mean() + df.destino_efetivo_latitude.mean()) / 2,
             (df.origem_longitude.mean() + df.destino_efetivo_longitude.mean()) / 2
-        ),
+        )
+    m = folium.Map(
+        location=map_center,
         zoom_start=11
     )
 
@@ -394,6 +397,3 @@ fares_map(df[df.nome_orgao=='2000-30-M.SAUDE'])
 
 # %% tags=[]
 fares_map(df[df.nome_orgao=='ANVISA'])
-
-# %%
-df[df.nome_orgao=='ANVISA']['motivo_corrida'].value_counts()
