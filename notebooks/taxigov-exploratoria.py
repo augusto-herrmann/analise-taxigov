@@ -53,18 +53,25 @@ df.dtypes
 # df['origem_latitude'] = df['origem_latitude'].str.replace(',','.')
 
 # %%
-df['origem_latitude'] = df['origem_latitude'].astype(float)
-df['origem_longitude'] = df['origem_longitude'].astype(float)
-
-# %%
 # coordenadas sem ponto decimal
 # no_decimal = df.origem_latitude.apply(lambda s: '.' not in s)
 # df.loc[no_decimal, 'origem_latitude'] = df[no_decimal]['origem_latitude'].apply(lambda s: s[:3] + '.' + s[3:])
 for point_type in ('origem', 'destino_solicitado', 'destino_efetivo'):
-    latitude_inexistente = df[f'{point_type}_latitude'] < -90.0, f'{point_type}_latitude'
-    longitude_inexistente = df[f'{point_type}_longitude'] < -180.0, f'{point_type}_longitude'
+    for axis in ('latitude', 'longitude'):
+        column = '_'.join((point_type, axis))
+        if df[column].dtype == 'object':
+            df[column] = df[column].str.replace(',','.')
+            df[column] = df[column].astype(float)
+    # coordenadas com valores inválidos
+    latitude_inexistente = (df[f'{point_type}_latitude'] < -90.0), f'{point_type}_latitude'
+    longitude_inexistente = (df[f'{point_type}_longitude'] < -180.0), f'{point_type}_longitude'
     df.loc[latitude_inexistente] = df.loc[latitude_inexistente] / 100000.0
     df.loc[longitude_inexistente] = df.loc[longitude_inexistente] / 100000.0
+    # coordenadas no hemisfério errado
+    latitude_fora_hemisferio = (df[f'{point_type}_latitude'] > 0.0), f'{point_type}_latitude'
+    longitude_fora_hemisferio = (df[f'{point_type}_longitude'] > 0.0), f'{point_type}_longitude'
+    df.loc[latitude_fora_hemisferio] = df.loc[latitude_fora_hemisferio] * -1.0
+    df.loc[longitude_fora_hemisferio] = df.loc[longitude_fora_hemisferio] * -1.0
 
 # %%
 # converte o que não for numérico
